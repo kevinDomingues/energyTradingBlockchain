@@ -1,0 +1,44 @@
+[
+    {
+        "transactionName": "EnergyCertificateExists",
+        "transactionLabel": "A test EnergyCertificateExists transaction",
+        "arguments": [
+            "001"
+        ],
+        "transientData": {}
+    },
+    {
+        "transactionName": "CreateEnergyCertificate",
+        "transactionLabel": "A test CreateEnergyCertificate transaction",
+        "arguments": [
+            "001",
+            "some value"
+        ],
+        "transientData": {}
+    },
+    {
+        "transactionName": "ReadEnergyCertificate",
+        "transactionLabel": "A test ReadEnergyCertificate transaction",
+        "arguments": [
+            "001"
+        ],
+        "transientData": {}
+    },
+    {
+        "transactionName": "UpdateEnergyCertificate",
+        "transactionLabel": "A test UpdateEnergyCertificate transaction",
+        "arguments": [
+            "001",
+            "some other value"
+        ],
+        "transientData": {}
+    },
+    {
+        "transactionName": "DeleteEnergyCertificate",
+        "transactionLabel": "A test DeleteEnergyCertificate transaction",
+        "arguments": [
+            "001"
+        ],
+        "transientData": {}
+    }
+]
