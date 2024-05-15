@@ -90,6 +90,9 @@ func (c *EnergyCertificateContract) UpdateEnergyCertificate(ctx contractapi.Tran
 		return err
 	}
 
+	energyCertificate.UsableMonth = newUsableMonth
+	energyCertificate.UsableYear = newUsableYear
+
 	updatedCertificate, err := json.Marshal(energyCertificate)
 	if err != nil {
 		return err
