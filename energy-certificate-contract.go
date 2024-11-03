@@ -29,7 +29,7 @@ func (c *EnergyCertificateContract) EnergyCertificateExists(ctx contractapi.Tran
 }
 
 // CreateEnergyCertificate creates a new instance of EnergyCertificate
-func (c *EnergyCertificateContract) CreateEnergyCertificate(ctx contractapi.TransactionContextInterface, ownerId string, producerId string, emissionDate string, usableMonth int, usableYear int, regulatoryAuthorityID string) (string, error) {
+func (c *EnergyCertificateContract) CreateEnergyCertificate(ctx contractapi.TransactionContextInterface, ownerId string, producerId string, emissionDate string, usableMonth int, usableYear int, regulatoryAuthorityID string, energyType int) (string, error) {
 	energyCertificate := EnergyCertificate{
 		EnergyCertificateID:   ctx.GetStub().GetTxID(),
 		OwnerID:               ownerId,
@@ -38,6 +38,8 @@ func (c *EnergyCertificateContract) CreateEnergyCertificate(ctx contractapi.Tran
 		UsableMonth:           usableMonth,
 		UsableYear:            usableYear,
 		RegulatoryAuthorityID: regulatoryAuthorityID,
+		AvailableToSell:       true,
+		EnergyType:            energyType,
 	}
 
 	bytes, err := json.Marshal(energyCertificate)
@@ -130,6 +132,7 @@ func (c *EnergyCertificateContract) TransferEnergyCertificate(ctx contractapi.Tr
 
 	oldOwnerId := energyCertificate.OwnerID
 	energyCertificate.OwnerID = newOwnerId
+	energyCertificate.AvailableToSell = false
 
 	updatedCertificateJSON, err := json.Marshal(energyCertificate)
 	if err != nil {
@@ -207,6 +210,21 @@ func (c *EnergyCertificateContract) GetCertificatesByOwnerID(ctx contractapi.Tra
 
 func (c *EnergyCertificateContract) GetCertificatesByProducerID(ctx contractapi.TransactionContextInterface, producerId string) ([]EnergyCertificate, error) {
 	queryString := fmt.Sprintf(`{"selector":{"producerId":"%s"}}`, producerId)
+	return c.getCertificatesByQueryString(ctx, queryString)
+}
+
+func (c *EnergyCertificateContract) GetCertificatesAvailableToSell(ctx contractapi.TransactionContextInterface) ([]EnergyCertificate, error) {
+	queryString := fmt.Sprintf(`{"selector":{"availableToSell":"%v"}}`, true)
+	return c.getCertificatesByQueryString(ctx, queryString)
+}
+
+func (c *EnergyCertificateContract) GetCertificatesAvailableFromSpecificMonth(ctx contractapi.TransactionContextInterface, usableMonth int, usableYear int) ([]EnergyCertificate, error) {
+	queryString := fmt.Sprintf(`{"selector":{"availableToSell": "%v", "usableMonth":"%d", "usableYear": "%d"}}`, true, usableMonth, usableYear)
+	return c.getCertificatesByQueryString(ctx, queryString)
+}
+
+func (c *EnergyCertificateContract) GetCertificatesAvailableFromSpecificMonthAndEnergyType(ctx contractapi.TransactionContextInterface, usableMonth int, usableYear int, energyType int) ([]EnergyCertificate, error) {
+	queryString := fmt.Sprintf(`{"selector":{"availableToSell": "%v", "usableMonth":"%d", "usableYear": "%d", "energyType": "%d"}}`, true, usableMonth, usableYear, energyType)
 	return c.getCertificatesByQueryString(ctx, queryString)
 }
 

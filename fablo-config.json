@@ -1,0 +1,63 @@
+{
+  "$schema": "https://github.com/hyperledger-labs/fablo/releases/download/1.1.0/schema.json",
+  "global": {
+    "fabricVersion": "2.4.0",
+    "tls": false,
+    "peerDevMode": false,
+    "tools": {
+      "explorer": true
+    }
+  },
+  "orgs": [
+    {
+      "organization": {
+        "name": "Orderer",
+        "domain": "orderer.example.com"
+      },
+      "orderers": [
+        {
+          "groupName": "group1",
+          "type": "solo",
+          "instances": 1
+        }
+      ],
+      "tools": {}
+    },
+    {
+      "organization": {
+        "name": "Org1",
+        "domain": "org1.example.com"
+      },
+      "peer": {
+        "instances": 2,
+        "db": "CouchDb"
+      },
+      "tools": {
+        "fabloRest": true
+      }
+    }
+  ],
+  "channels": [
+    {
+      "name": "channel1",
+      "orgs": [
+        {
+          "name": "Org1",
+          "peers": [
+            "peer0",
+            "peer1"
+          ]
+        }
+      ]
+    }
+  ],
+  "chaincodes": [
+    {
+      "name": "energyTradingBlockchain",
+      "version": "4", 
+      "lang": "golang", 
+      "channel": "channel1",
+      "directory": "."
+    }
+  ]
+}
