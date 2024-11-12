@@ -54,7 +54,7 @@
   "chaincodes": [
     {
       "name": "energyTradingBlockchain",
-      "version": "4", 
+      "version": "5", 
       "lang": "golang", 
       "channel": "channel1",
       "directory": "."
