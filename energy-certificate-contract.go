@@ -224,7 +224,7 @@ func (c *EnergyCertificateContract) GetCertificatesAvailableFromSpecificMonth(ct
 }
 
 func (c *EnergyCertificateContract) GetCertificatesAvailableFromSpecificMonthAndEnergyType(ctx contractapi.TransactionContextInterface, usableMonth int, usableYear int, energyType int) ([]EnergyCertificate, error) {
-	queryString := fmt.Sprintf(`{"selector":{"availableToSell": %v, usableMonth:%d, "usableYear": %d, "energyType": %d}}`, true, usableMonth, usableYear, energyType)
+	queryString := fmt.Sprintf(`{"selector":{"availableToSell": %v, "usableMonth":%d, "usableYear": %d, "energyType": %d}}`, true, usableMonth, usableYear, energyType)
 	return c.getCertificatesByQueryString(ctx, queryString)
 }
 
